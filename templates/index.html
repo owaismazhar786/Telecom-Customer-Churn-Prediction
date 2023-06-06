@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Customer Churn Prediction</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+body {
+            background-color: #f8f9fa;
+            background-image: url("{{ url_for('static', filename='img4.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 100px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-5">Customer Churn Prediction</h1>
+        <form action="/predict" method="POST">
+            <div class="form-group">
+                <label for="gender" title="Select the gender of the customer">Gender:</label>
+                <select class="form-control" id="gender" name="gender">
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="SeniorCitizen" title="Select the SeniorCitizen of the customer">Senior Citizen:</label>
+                <select class="form-control" id="SeniorCitizen" name="SeniorCitizen">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="Partner" title="Select the Partner of the customer">Partner:</label>
+                <select class="form-control" id="Partner" name="Partner">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="Dependents" title="Select the Dependents of the customer">Dependents:</label>
+                <select class="form-control" id="Dependents" name="Dependents">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="tenure" title="Select the tenure/ duration of the customer">Tenure:</label>
+                <input type="number" id="tenure" name="tenure" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="PhoneService" title="Select the PhoneService of the customer">Phone Service:</label>
+                <select class="form-control" id="PhoneService" name="PhoneService">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="MultipleLines" title="Select the MultipleLines of the customer">Multiple-Lines:</label>
+                <select class="form-control" id="MultipleLines" name="MultipleLines">
+                    <option value="2">Yes</option>
+                    <option value="0">No</option>
+                    <option value="1">No Phone Service</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="InternetService" title="Select the InternetService of the customer">Internet
+                    Service:</label>
+                <select class="form-control" id="InternetService" name="InternetService">
+                    <option value="0">DSL</option>
+                    <option value="1">Fiber Optic</option>
+                    <option value="2">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="OnlineSecurity" title="Select the OnlineSecurity of the customer">Online Security:</label>
+                <select class="form-control" id="OnlineSecurity" name="OnlineSecurity">
+                    <option value="2">Yes</option>
+                    <option value="0">No</option>
+                    <option value="0">No Internet Service</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="OnlineBackup" title="Select the OnlineBackup of the customer">Online Backup:</label>
+                <select class="form-control" id="OnlineBackup" name="OnlineBackup">
+                    <option value="2">Yes</option>
+                    <option value="0">No</option>
+                    <option value="1">No Internet Service</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="DeviceProtection" title="Select the DeviceProtection of the customer">Device
+                    Protection:</label>
+                <select class="form-control" id="DeviceProtection" name="DeviceProtection">
+                    <option value="2">Yes</option>
+                    <option value="0">No</option>
+                    <option value="1">No Internet Service</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="TechSupport" title="Select the TechSupport of the customer">Tech Support:</label>
+                <select class="form-control" id="TechSupport" name="TechSupport">
+                    <option value="2">Yes</option>
+                    <option value="0">No</option>
+                    <option value="1">No Internet Service</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="StreamingTV" title="Select the StreamingTV of the customer">Streaming TV:</label>
+                <select class="form-control" id="StreamingTV" name="StreamingTV">
+                    <option value="2">Yes</option>
+                    <option value="0">No</option>
+                    <option value="1">No Internet Service</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="StreamingMovies" title="Select the StreamingMovies of the customer">Streaming
+                    Movies:</label>
+                <select class="form-control" id="StreamingMovies" name="StreamingMovies">
+                    <option value="2">Yes</option>
+                    <option value="0">No</option>
+                    <option value="1">No Internet Service</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="Contract" title="Select the Contract of the customer">Contract:</label>
+                <select class="form-control" id="Contract" name="Contract">
+                    <option value="0">Month to Month</option>
+                    <option value="1">One Year</option>
+                    <option value="2">Two Year</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="PaperlessBilling" title="Select the PaperlessBilling of the customer">Paperless
+                    Billing:</label>
+                <select class="form-control" id="PaperlessBilling" name="PaperlessBilling">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="PaymentMethod" title="Select the PaymentMethod of the customer">Payment Method:</label>
+                <select class="form-control" id="PaymentMethod" name="PaymentMethod">
+                    <option value="2">Electronic check</option>
+                    <option value="3">Mailed check</option>
+                    <option value="0">Bank transfer (automatic)</option>
+                    <option value="1">Credit card (automatic)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="MonthlyCharges" title="Select the monthly charges of the customer">Monthly Charges:</label>
+                <input type="number" id="MonthlyCharges" name="MonthlyCharges" step="0.01" class="form-control"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="TotalCharges" title="Select the total charges of the customer">Total Charges:</label>
+                <input type="number" id="TotalCharges" name="TotalCharges" step="0.01" class="form-control" required>
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="Predict">
+        </form>
+    </div>
